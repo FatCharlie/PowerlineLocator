@@ -24,7 +24,7 @@ class SimSource:
     def __init__(self, freq=8192.0, lines=((0.0, 1.5, 1.0),), staff_x=None,
                  gains=(1.0, -0.93, 1.06, 0.97), noise=2e-5, hum=0.0,
                  amplitude=0.02, rate=None, block=None, seed=1, freq_error=0.0,
-                 realtime=False):
+                 realtime=False, field_fn=None):
         self.rate = rate or config.SAMPLE_RATE
         self.block = block or config.BLOCK
         self.channels = config.CHANNELS
@@ -39,10 +39,13 @@ class SimSource:
         self.phase0 = 0.7
         self.hum_phase = self.rng.uniform(0, 2 * math.pi, self.channels)
         self.realtime = realtime
+        self.field_fn = field_fn        # if set: t -> field per coil, overrides lines
         self._t_start = None
 
     def field(self, t):
         """Field along each coil axis (arbitrary units) at time t."""
+        if self.field_fn is not None:
+            return np.asarray(self.field_fn(t), float)
         sx = self.staff_x(t)
         total = np.zeros(self.channels)
         for (x, depth, strength) in self.lines:

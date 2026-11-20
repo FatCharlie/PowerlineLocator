@@ -7,7 +7,7 @@
     python3 locate.py --mode 33k --no-screen
 
 MODE button: 8 kHz -> 33 kHz -> 60 Hz power -> 8 kHz ...
-SOUND button: buzzer on/off.
+SOUND button: tap = buzzer on/off; hold 1 s = start a new power-mode peak.
 """
 import argparse
 import signal
@@ -37,7 +37,8 @@ def build_source(args, mode):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--mode", choices=[m["key"] for m in config.MODES], default="8k")
+    ap.add_argument("--mode", choices=[m["key"] for m in config.MODES], default=None,
+                    help="starting mode (default: 8k if 8 kHz is calibrated, else power)")
     ap.add_argument("--sim", action="store_true", help="simulated coils, no hardware")
     ap.add_argument("--sim-depth", type=float, default=1.5, help="simulated depth, m")
     ap.add_argument("--sim-second", type=float, default=0.0,
@@ -48,8 +49,11 @@ def main():
     args = ap.parse_args()
 
     modes = config.MODES
-    mi = [m["key"] for m in modes].index(args.mode)
     cal = load_cal()
+    if args.mode is None:
+        # a Stage 1 build (no transmitter yet) starts straight in power mode
+        args.mode = "8k" if "8192" in cal or args.sim else "power"
+    mi = [m["key"] for m in modes].index(args.mode)
     if args.sim:
         sim_gains = [1.0, -0.93, 1.06, 0.97]
         cal = {m["cal_key"]: {"gains": sim_gains} for m in modes}
@@ -78,7 +82,7 @@ def main():
                                      "finding the frequency"))
         freq, _ = lock_frequency(src, m["freq"], m["search"])
         gains = (cal.get(m["cal_key"]) or {}).get("gains")
-        return src, Locator(freq, gains, src.rate, src.block)
+        return src, Locator(freq, gains, src.rate, src.block, power=m["key"] == "power")
 
     src, loc = start_mode(mi)
     every = max(1, int(round(src.rate / src.block / config.UPDATE_HZ)))
@@ -92,6 +96,9 @@ def main():
             n += 1
             if controls.take_sound():
                 sound = not sound
+            if controls.take_reset():
+                loc.reset_peak()
+                controls.tone(1600)
             if controls.take_mode():
                 src.close()
                 mi = (mi + 1) % len(modes)
@@ -108,9 +115,17 @@ def main():
             # chirp: one block on, the rest off; double chirp when on the line
             if sound and est is not None and est.snr_db is not None:
                 ph = n % chirp_every
-                on_line = est.status == "ok" and est.x is not None and abs(est.x) < 0.05
+                if est.power:
+                    on_line = est.status == "ok" and bool(est.at_peak)
+                else:
+                    on_line = est.status == "ok" and est.x is not None and abs(est.x) < 0.05
                 beep = ph == 0 or (on_line and ph == 2)
-                controls.tone(pitch_for(est.snr_db) if beep else 0)
+                if est.power and est.peak_db is not None:
+                    # 400 Hz at 10 dB below the held peak, 3.2 kHz at it
+                    tone = pitch_for(60.0 + 6.0 * est.peak_db)
+                else:
+                    tone = pitch_for(est.snr_db)
+                controls.tone(tone if beep else 0)
             else:
                 controls.tone(0)
             if t_end and time.monotonic() > t_end:

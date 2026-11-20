@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+<rect x="0.0" y="0.0" width="1500.0" height="900.0" rx="0" fill="white" stroke="none" stroke-width="2"/>
+<text x="24.0" y="40.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="26" text-anchor="start" font-weight="bold" fill="#222">Stage 1 calibration loop (seen from above)</text>
+<rect x="690.0" y="110.0" width="310.0" height="558.0" rx="0" fill="#f7f3ea" stroke="none" stroke-width="2"/>
+<polyline points="1000.0,110.0 690.0,110.0 690.0,668.0 1000.0,668.0" fill="none" stroke="#c87533" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="1000.0,110.0 1000.0,664.0" fill="none" stroke="#c87533" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="845.0" y="96.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="middle" font-weight="bold" fill="#222">5 m (16 ft 5 in)</text>
+<text x="676.0" y="389.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="end" font-weight="bold" fill="#222">9 m</text>
+<text x="676.0" y="407.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal" fill="#222">(29 ft 6 in)</text>
+<text x="845.0" y="389.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="middle" font-weight="normal" fill="#555555">the rest of the loop is on your LEFT</text>
+<circle cx="1000.0" cy="110.0" r="6.0" fill="#666" stroke="#222" stroke-width="2"/>
+<circle cx="690.0" cy="110.0" r="6.0" fill="#666" stroke="#222" stroke-width="2"/>
+<circle cx="690.0" cy="668.0" r="6.0" fill="#666" stroke="#222" stroke-width="2"/>
+<text x="680.0" y="694.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">corners pegged and square (3-4-5)</text>
+<circle cx="1000.0" cy="425.0" r="18.0" fill="#ffe0c0" stroke="#222" stroke-width="2"/>
+<text x="1000.0" y="430.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">you</text>
+<line x1="1040.0" y1="449.0" x2="1040.0" y2="379.0" stroke="#1f77b4" stroke-width="2" stroke-linecap="round"/>
+<line x1="1040.0" y1="379.0" x2="1044.3" y2="388.0" stroke="#1f77b4" stroke-width="2" stroke-linecap="round"/>
+<line x1="1040.0" y1="379.0" x2="1035.7" y2="388.0" stroke="#1f77b4" stroke-width="2" stroke-linecap="round"/>
+<text x="1048.0" y="409.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#222">face along the wire</text>
+<path d="M 890.880000 319.000000 L 902.880000 325.000000 L 890.880000 331.000000 Z" fill="#d62728" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+<line x1="890.9" y1="319.0" x2="890.9" y2="349.0" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+<text x="890.9" y="309.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">31.5 in</text>
+<path d="M 931.800000 319.000000 L 943.800000 325.000000 L 931.800000 331.000000 Z" fill="#d62728" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+<line x1="931.8" y1="319.0" x2="931.8" y2="349.0" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+<text x="931.8" y="293.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">19.7 in</text>
+<path d="M 1068.200000 319.000000 L 1080.200000 325.000000 L 1068.200000 331.000000 Z" fill="#d62728" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+<line x1="1068.2" y1="319.0" x2="1068.2" y2="349.0" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+<text x="1068.2" y="309.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">19.7 in</text>
+<path d="M 1109.120000 319.000000 L 1121.120000 325.000000 L 1109.120000 331.000000 Z" fill="#d62728" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+<line x1="1109.1" y1="319.0" x2="1109.1" y2="349.0" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+<text x="1109.1" y="293.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">31.5 in</text>
+<text x="850.0" y="259.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">flags, square to the wire, at its middle</text>
+<text x="850.0" y="275.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#555555">(flag spacing drawn larger than scale)</text>
+<polyline points="1000.0,664.0 1000.0,708.0" fill="none" stroke="#c87533" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="988.0,668.0 988.0,708.0" fill="none" stroke="#c87533" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1000.0" cy="714.0" r="6.0" fill="#222" stroke="#222" stroke-width="2"/>
+<circle cx="988.0" cy="714.0" r="6.0" fill="#222" stroke="#222" stroke-width="2"/>
+<text x="1014.0" y="718.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#222">the loop&#x27;s two ends, clipped on here</text>
+<rect x="70.0" y="110.0" width="520.0" height="300.0" rx="8" fill="#fafafa" stroke="#bbb" stroke-width="2"/>
+<text x="86.0" y="134.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" text-anchor="start" font-weight="bold" fill="#222">The TRS cable</text>
+<rect x="90.0" y="180.0" width="70.0" height="34.0" rx="6" fill="#bbb" stroke="#222" stroke-width="2"/>
+<rect x="160.0" y="188.0" width="50.0" height="18.0" rx="0" fill="#ddd" stroke="#222" stroke-width="1"/>
+<line x1="174.0" y1="188.0" x2="174.0" y2="206.0" stroke="#222" stroke-width="3" stroke-linecap="round"/>
+<line x1="192.0" y1="188.0" x2="192.0" y2="206.0" stroke="#222" stroke-width="3" stroke-linecap="round"/>
+<text x="90.0" y="158.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">¼ in TRS plug into MAIN OUT L</text>
+<text x="214.0" y="184.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#222">T</text>
+<text x="190.0" y="184.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#222">R</text>
+<text x="168.0" y="184.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#222">S</text>
+<polyline points="210.0,197.0 270.0,197.0" fill="none" stroke="#d62728" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="275.0" y="186.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">tip</text>
+<polyline points="310.0,197.0 326.0,197.0 330.0,204.0 338.0,190.0 346.0,204.0 354.0,190.0 362.0,204.0 370.0,190.0 374.0,197.0 390.0,197.0" fill="none" stroke="#222" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="350.0" y="183.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#222">47 Ω</text>
+<text x="350.0" y="223.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal" fill="#555555">½ W</text>
+<polyline points="270.0,197.0 310.0,197.0" fill="none" stroke="#d62728" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="390.0,197.0 490.0,197.0" fill="none" stroke="#d62728" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="500.0" y="202.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#222">clip to one end</text>
+<polyline points="192.0,206.0 192.0,290.0 490.0,290.0" fill="none" stroke="#222222" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="275.0" y="282.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">ring</text>
+<text x="500.0" y="295.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#222">clip to the other</text>
+<polyline points="174.0,206.0 174.0,340.0" fill="none" stroke="#999" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4,4"/>
+<text x="182.0" y="345.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">sleeve / shield: cut back and taped, unused</text>
+<text x="86.0" y="388.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">Interface: MIX fully to PLAYBACK, MAIN at about 3 o&#x27;clock.</text>
+<text x="86.0" y="404.2" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">calibrate.py plays the tone itself: 90 Hz, then 8 kHz, then 33 kHz.</text>
+<text x="70.0" y="520.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">Why a loop and not one straight wire: a loop needs no ground</text>
+<text x="70.0" y="537.5" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">stakes (dry ground can be hundreds of ohms) and takes little</text>
+<text x="70.0" y="555.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">current. Its far side and ends DO bend the field the coils see,</text>
+<text x="70.0" y="572.5" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">by 15 to 40 % on the vertical coils, so the software calculates</text>
+<text x="70.0" y="590.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">all four sides with the finite-wire Biot-Savart formula.</text>
+<text x="70.0" y="607.5" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555"></text>
+<text x="70.0" y="625.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">If your loop isn&#x27;t exactly 9 m x 5 m, measure it and set</text>
+<text x="70.0" y="642.5" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">CAL_LOOP_LENGTH and CAL_LOOP_WIDTH in locator/config.py.</text>
+</svg>

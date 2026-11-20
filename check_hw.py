@@ -163,14 +163,16 @@ def check_cal():
     print("\nCalibration")
     from locator.pipeline import load_cal
     cal = load_cal()
-    for key, name in (("8192", "8 kHz"), ("32768", "33 kHz"), ("90", "power (90 Hz cal)")):
+    for key, name, stage in (("90", "power (90 Hz cal)", 1), ("8192", "8 kHz", 2), ("32768", "33 kHz", 2)):
         e = cal.get(key)
         if e:
             worst = max(e.get("fit_err", [0])) * 100
             report("cal", name, worst <= config.CAL_MAX_FIT_ERR * 100,
                    "%s, worst fit error %.1f %%" % (e.get("date", "?"), worst), "re-run calibrate.py --only " + key)
-        else:
+        elif stage == 1:
             report("cal", name, False, "not calibrated", "python3 calibrate.py --only " + key)
+        else:
+            report("cal", name, None, "not calibrated (only needed with the transmitter, Stage 2)")
 
 
 def live(freq):

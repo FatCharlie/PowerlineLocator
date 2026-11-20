@@ -128,7 +128,10 @@ def coherent_average(P):
     b = np.arange(len(phase))
     slope, icept = np.polyfit(b, phase, 1) if len(b) > 1 else (0.0, phase[0])
     D = P * np.exp(-1j * (slope * b + icept))[:, None]
-    mean = D.mean(axis=0)
+    # Hann weights: hum 30 Hz away flips sign from block to block, and a
+    # Hann-weighted average of a sign-flipping sequence is almost exactly zero
+    w = np.hanning(len(b) + 2)[1:-1] if len(b) > 2 else np.ones(len(b))
+    mean = (D * w[:, None]).sum(axis=0) / w.sum()
     signed = mean.real
     spread = np.std(D[:, ref].real) / math.sqrt(len(b)) + 1e-30
     return signed, 20.0 * math.log10(abs(signed[ref]) / spread)

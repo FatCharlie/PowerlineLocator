@@ -98,6 +98,7 @@ class Screen:
         self.f_small = _font(22)
         self.f_mid = _font(34)
         self.f_big = _font(76)
+        self.f_peak = _font(60)
 
     def render(self, est, mode_label, sound_on, extra=""):
         from PIL import Image, ImageDraw
@@ -121,6 +122,9 @@ class Screen:
         d.text((8, 64), "signal %d dB" % round(snr), font=self.f_small, fill=0)
 
         status = est.status or ""
+        if status == "ok" and est.power:
+            self._render_power(d, est, W, H)
+            return img
         if status in ("ok", "distorted"):
             depth = fmt_depth(est.depth)
             if status == "distorted" and est.depth is not None:
@@ -149,6 +153,31 @@ class Screen:
             d.text(((W - tw) / 2, H - 27), msg, font=self.f_small, fill=1)
         return img
 
+    def _render_power(self, d, est, W, H):
+        head, detail = power_lines(est)
+        tw = d.textlength(head, font=self.f_peak)
+        d.text(((W - tw) / 2, 90), head, font=self.f_peak, fill=0)
+        font = self.f_mid if est.at_peak else self.f_small
+        tw = d.textlength(detail, font=font)
+        d.text(((W - tw) / 2, 166), detail, font=font, fill=0)
+        d.rectangle([0, H - 30, W, H], fill=0)
+        msg = "approx position: hand dig"
+        tw = d.textlength(msg, font=self.f_small)
+        d.text(((W - tw) / 2, H - 27), msg, font=self.f_small, fill=1)
+
+
+def power_lines(est):
+    """(headline, detail) for a power-mode estimate."""
+    from .pipeline import fmt_depth
+    head = "AT PEAK" if est.at_peak else "%+.1f dB" % (est.peak_db or 0.0)
+    if est.at_peak and est.depth is not None:
+        detail = "%s to %s deep" % (fmt_depth(est.depth), fmt_depth(est.depth_hi))
+    elif est.at_peak:
+        detail = "depth: --"
+    else:
+        detail = "sweep across to find the peak"
+    return head, detail
+
 
 class TerminalDisplay:
     """Fallback when there's no screen: one line, rewritten in place."""
@@ -158,7 +187,9 @@ class TerminalDisplay:
         snr = est.snr_db if (est.snr_db is not None and est.snr_db > -1e9) else 0.0
         bar = "#" * int(max(0, min(30, snr / 2)))
         parts = ["%-12s" % mode_label, "%-30s" % bar, "%5.1f dB" % snr]
-        if est.status in ("ok", "distorted"):
+        if est.status == "ok" and est.power:
+            parts += list(power_lines(est))
+        elif est.status in ("ok", "distorted"):
             parts += ["depth %-8s" % fmt_depth(est.depth), "%-10s" % fmt_offset(est.x)]
             if est.distorted:
                 parts.append("DISTORTED")

@@ -2,44 +2,52 @@
 
 This guide walks through building the whole kit from a pile of parts, assuming you've never wound a coil or wired a Pi before. The [README](README.md) covers how it works and the software; [SCHEMATICS.md](SCHEMATICS.md) has every drawing and wiring table; [PARTS.md](PARTS.md) has the shopping list. Where this guide and a drawing seem to disagree, stop and check: one of them has a mistake.
 
-You don't need to understand the physics to build it. The short version: the transmitter makes a buried cable "hum" at one frequency, and the staff listens for that hum with four coils and works out where it's coming from.
+You don't need to understand the physics to build it. The short version: a live, loaded power cable already "hums" at 60 Hz, and the staff listens for that hum with four coils and works out where it's coming from. Stage 2 adds a transmitter that makes any metal line hum at a frequency of your choosing.
 
 ---
 
-## 1. What you're building
-
-Three things that work together.
+## 1. What you're building, in two stages
 
 ```text
-  THE TRANSMITTER (a box)           THE CLAMP                 THE RECEIVER (a staff)
+  STAGE 1: the receiver on its own (about $445)        STAGE 2: add the transmitter and clamp (+ about $195)
 
-  battery ─► switch ─► Pico         split ferrite ring         ┌──────────────┐ ◄ head box: Pi, screen,
-              │ makes the beat      with 10 turns of wire      │   4' 7"      │   2 buttons, buzzer
-              ▼                     │                          └──────┬───────┘
-          H-bridge (DRV8871)        │ closes round a cable            │ USB
-              │ makes it strong     │ without touching it        ┌────┴─────┐ ◄ UMC404HD: four
-              ▼                     │                            │ ▯ ▯ ▯ ▯  │   microphone inputs
-          protection ─► RED / BLACK ┘                            └┬──┬──┬──┬┘
-                         posts                                    │  │  │  │ XLR cables
-                                                                 ═╪══╪═ top coils (600 mm up)
-                                                                 ═╪══╪═ bottom coils (100 mm up)
-                                                                   tip on the ground
+  ┌──────────────┐ ◄ head box: Pi, screen,              battery ─► switch ─► Pico ─► H-bridge ─► RED / BLACK
+  │   AT PEAK    │   2 buttons, buzzer                                                            │
+  └──────┬───────┘                                       split ferrite clamp ◄─────────────────────┘
+         │ USB                                           (puts the signal on a live cable with no contact)
+  ┌──────┴─────┐ ◄ UMC404HD: four mic inputs
+  │ ▯ ▯ ▯ ▯    │   (and the tone for calibration)       Adds: dead lines, metal pipe, tracer wire,
+  └┬──┬──┬──┬──┘                                         pick-one-line-of-many, an arrow, and a
+   │  │  │  │ XLR cables                                 single depth you can trust.
+  ═╪══╪═ top coils (600 mm up)
+  ═╪══╪═ bottom coils (100 mm up)
+    tip on the ground
 ```
 
-Build order: **coils** (the slowest part: an afternoon), **staff**, **head box**, **software**, **transmitter**, **clamp**, **leads**, then **first light**, **calibration** and the **test range**. Each step ends with a check. Don't move on until it passes.
+**Stage 1 finds live, loaded power cables.** Turn on a big load at the far end (a well pump, a heater), and the staff finds the peak of the 60 Hz field and gives a depth **range**. It can't give an arrow or a single exact depth: a live cable is hot and neutral side by side, and from above that pair can't be told apart from a single wire sitting a little to one side. Stage 1 is still the tool you'll use most.
+
+**Stage 2 makes it a full locator.** The transmitter puts one known current on the line, so the staff can show an arrow, a single depth and a distortion warning, and find lines that aren't live at all. Nothing from Stage 1 changes or gets thrown away.
+
+**Stage 1 build order:** **coils** (the slowest part: an afternoon), **staff**, **head box**, **software**, **calibration loop**, **calibration**, then a **check on a known line** and **lock it down**. Each step ends with a check. Don't move on until it passes.
 
 ---
 
 ## 2. Safety, before anything else
 
-* **Never connect either transmitter lead, RED or BLACK, to anything that might be live.** If one lead is on a live wire, the clip on the other lead is live too, and the fuse can't help you. Live, or not sure: use the clamp, or power mode. The leads only go on a line you've switched off *and* proved dead with your meter.
-* **The clamp goes round insulated cable or conduit only,** never a bare conductor.
+**Always:**
+
 * **Unplug the Pi before changing any wire on its header.** Every time.
-* **Battery first, fuse first.** F1 (the 3 A blade fuse) goes on the battery's + wire before anything else is connected, so a slip of a screwdriver can't weld itself to a terminal.
-* **Charge the LiFePO4 battery with its own charger,** outside the closed box.
 * **Soldering irons run at about 350 °C.** Use the stand, solder somewhere ventilated, and wash your hands after handling solder.
 * **Ferrite rods are brittle,** like pottery. Don't drop them, and never crank a drill chuck tight on one.
-* **Hand dig within 18 in of any mark,** this tool's or anyone else's, until you can see the line. That's New Mexico law, and good sense.
+* **Hand dig within 18 in of any mark,** this tool's or anyone else's, until you can see the line. That's New Mexico law, and good sense. In power mode (Stage 1), treat the line as possibly being as shallow as the **first** number of the depth range.
+* **Stage 1 never touches a cable.** The staff only listens. The calibration loop carries a few milliamps from the interface's line-level output, and must never be connected to anything else.
+
+**Stage 2 adds:**
+
+* **Never connect either transmitter lead, RED or BLACK, to anything that might be live.** If one lead is on a live wire, the clip on the other lead is live too, and the fuse can't help you. Live, or not sure: use the clamp, or power mode. The leads only go on a line you've switched off *and* proved dead with your meter.
+* **The clamp goes round insulated cable or conduit only,** never a bare conductor.
+* **Battery first, fuse first.** F1 (the 3 A blade fuse) goes on the battery's + wire before anything else is connected, so a slip of a screwdriver can't weld itself to a terminal.
+* **Charge the LiFePO4 battery with its own charger,** outside the closed box.
 
 ---
 
@@ -55,30 +63,34 @@ A rod of black or dark grey ceramic magnetic material. Wind a coil on it and it 
 
 ### XLR
 
-The round 3-pin plug on microphone cables. The **male** plug has three pins and goes into the interface. Each pin's number is moulded in the plastic beside it: **pin 1** is the shield, **pins 2 and 3** carry the signal. Inside the cable: a braided or foil shield and two insulated wires, usually red and white (but check with a meter: Step 4 in Part 1).
+The round 3-pin plug on microphone cables. The **male** plug has three pins and goes into the interface. Each pin's number is moulded in the plastic beside it: **pin 1** is the shield, **pins 2 and 3** carry the signal. Inside the cable: a braided or foil shield and two insulated wires, usually red and white (but check with a meter: Step 7 in Part 1).
 
-### Banana plugs and binding posts
+### TRS
+
+The ¼ in (6.35 mm) plug with **three** contacts: **T**ip, **R**ing and **S**leeve, separated by two black bands. The interface's MAIN outputs are TRS: tip and ring carry the signal (in opposite polarity), sleeve is ground. The calibration loop connects to tip and ring.
+
+### Banana plugs and binding posts (Stage 2)
 
 A **binding post** is the screw-cap terminal on the transmitter, red or black. A **banana plug** is the springy 4 mm plug that pushes into its centre. The leads have a banana plug on one end and an alligator clip on the other.
 
-### H-bridge
+### H-bridge (Stage 2)
 
 Four electronic switches arranged so a battery can be connected to two output terminals either way round: + to RED, or + to BLACK. Flip that thousands of times a second and you get an AC signal from a DC battery. The DRV8871 board is an H-bridge.
 
-### Fuses here
+### Fuses here (Stage 2)
 
 * **Blade fuse (F1):** the flat plastic car-type fuse, 3 A, in a holder on the battery wire.
 * **Glass fuse (F2):** a 5 × 20 mm glass tube, 1 A fast-blow, in a panel holder on the output. If it ever blows, something live was connected.
 
-### TVS diode
+### TVS diode (Stage 2)
 
 A little component that does nothing until the voltage across it goes over about 20 V, then conducts hard, clamping the voltage. It protects the H-bridge if the output touches something it shouldn't. "Bidirectional" (the "CA" in 1.5KE20CA) means it works either way round, so it can't be fitted backwards.
 
-### LiFePO4
+### LiFePO4 (Stage 2)
 
 Lithium iron phosphate: a lithium battery chemistry that doesn't catch fire the way phone batteries can. A "12 V" one actually sits around 13.2 V. It has a protection circuit built in.
 
-### Pico
+### Pico (Stage 2)
 
 The Raspberry Pi **Pico** is a tiny microcontroller board, not a computer: no operating system, it just runs one program (main.py) from the moment it gets power.
 
@@ -116,7 +128,7 @@ The pins this build uses:
 | 31 | GPIO6 | SOUND button |
 | 34 | GND | Both buttons' other leg, buzzer − |
 
-### The Pico's 40 pins
+### The Pico's 40 pins (Stage 2)
 
 The Pico's pin names (GP0, GND, VSYS and so on) are printed on its **underside**. Hold it with the USB socket at the top: **pin 1 (GP0)** is top left, pins count down the left side to **pin 20 (GP15)** at bottom left, then continue up the right side from **pin 21** at the bottom to **pin 40 (VBUS)** at top right. So **pin 39 (VSYS)** is second from the top on the right, and **pin 38** below it is GND.
 
@@ -138,20 +150,21 @@ The Pico's pin names (GP0, GND, VSYS and so on) are printed on its **underside**
 
 | Part | What it does | What to look for |
 |---|---|---|
-| **UMC404HD** | Four microphone preamps and a converter: turns four coils into numbers for the Pi | 4 combo jacks on the front (XLR in the middle, ¼ in around it), 4 gain knobs, 4 PAD buttons, a +48V switch on the back, USB-B socket on the back |
+| **UMC404HD** | Four microphone preamps and a converter: turns four coils into numbers for the Pi | 4 combo jacks on the front (XLR in the middle, ¼ in around it), 4 gain knobs, 4 PAD buttons, a MIX knob, a MAIN knob, a +48V switch on the back, MAIN OUT L/R (¼ in TRS) and a USB-B socket on the back |
 | **Sharp display** (Adafruit 4694) | The screen | Header pins: VIN, 3V3, GND, CLK, DI, CS, EMD, DISP, EIN |
 | **Ferrite rods** | Coil cores | Black/grey, 10 mm across, 100 mm long |
 | **Magnet wire** | The coils | A spool of shiny "bare-looking" copper, 30 AWG (about 0.25 mm) |
 | **Copper foil tape** | Coil shields | A roll of thin copper with sticky backing |
-| **Pico** | Transmitter brain | Green board, USB socket at one end, BOOTSEL button |
-| **DRV8871** (Adafruit 3190) | The H-bridge | Small purple board; comes with two blue terminal blocks and a header strip to solder on |
-| **Pololu D24V10F5** | Makes 5 V for the Pico from the battery | Tiny blue board marked VIN, GND, VOUT |
-| **1N5819** | Lets the battery feed the Pico but not the other way | Small black diode, **grey stripe at one end** (the cathode) |
-| **1.5KE20CA** | The TVS clamp | A bigger black diode; may have no stripe (bidirectional: either way round) |
-| **22 Ω 25 W resistor** | Limits the output current | Gold aluminium body with two solder tabs and mounting holes |
-| **470 µF capacitor** | Steadies the battery voltage under the H-bridge | A can with a **stripe of − signs down one side**: that leg is − |
-| **Fair-Rite 0431177081** ×2 | The clamp | Grey plastic clamshells with ferrite halves inside, 25 mm hole |
-| **LEDs** | Transmitter frequency lights | **Long leg = +**; the flat edge on the rim is − |
+| **TRS cable + 47 Ω resistor** | Drives the calibration loop from the interface | A ¼ in plug with two black bands |
+| **Pico** (Stage 2) | Transmitter brain | Green board, USB socket at one end, BOOTSEL button |
+| **DRV8871** (Adafruit 3190) (Stage 2) | The H-bridge | Small purple board; comes with two blue terminal blocks and a header strip to solder on |
+| **Pololu D24V10F5** (Stage 2) | Makes 5 V for the Pico from the battery | Tiny blue board marked VIN, GND, VOUT |
+| **1N5819** (Stage 2) | Lets the battery feed the Pico but not the other way | Small black diode, **grey stripe at one end** (the cathode) |
+| **1.5KE20CA** (Stage 2) | The TVS clamp | A bigger black diode; may have no stripe (bidirectional: either way round) |
+| **22 Ω 25 W resistor** (Stage 2) | Limits the output current | Gold aluminium body with two solder tabs and mounting holes |
+| **470 µF capacitor** (Stage 2) | Steadies the battery voltage under the H-bridge | A can with a **stripe of − signs down one side**: that leg is − |
+| **Fair-Rite 0431177081** ×2 (Stage 2) | The clamp | Grey plastic clamshells with ferrite halves inside, 25 mm hole |
+| **LEDs** (Stage 2) | Transmitter frequency lights | **Long leg = +**; the flat edge on the rim is − |
 
 ---
 
@@ -163,11 +176,11 @@ The Pico's pin names (GP0, GND, VSYS and so on) are printed on its **underside**
 * Drill, 5 mm bit, step bit (for 16 mm button holes), hand saw
 * Hand-crank drill and tally counter (for winding)
 * Hot-glue gun, electrical tape, masking tape, a marker
-* A crimper for the battery spade connectors
+* A crimper for the battery spade connectors (Stage 2)
 
 ---
 
-## 7. Assembly
+## 7. Stage 1: building the receiver
 
 ### Part 1: Wind the coils (make five: four plus a spare)
 
@@ -241,6 +254,8 @@ Set it up and then **tape the controls**, so a borrower can't change them:
 
 * Gain knobs 1 to 4: **fully clockwise**. Calibration is only valid at the knob positions it was done at, and fully clockwise is the one position anyone can find again.
 * PAD buttons: **out**.
+* **MIX** knob: fully to **PLAYBACK**, so the coils' own signal never goes back out the outputs.
+* **MAIN** knob: about **3 o'clock**. It only sets the calibration tone's strength.
 * **+48V** switch on the back: **OFF**.
 
 **Check:** no metal screws, brackets or nails below 750 mm. Steel near the coils bends the field, and if it ever moves, the calibration is wrong.
@@ -297,7 +312,7 @@ sudo reboot
 
 ```bash
 cd PowerlineLocator
-python3 selftest.py                        # should end "50 passed, 0 failed"
+python3 selftest.py                        # should end "0 failed"
 sudo systemctl stop powerline-locator      # free the interface for the checks
 python3 check_hw.py --interactive
 ```
@@ -312,11 +327,132 @@ python3 check_hw.py --live
 
 Hold the staff so each coil in turn passes close to the cord. That input's bar should jump. If one never moves, check that coil's XLR plug, its input number and its gain knob.
 
-The screen's own CALIBRATION check will still FAIL: that's Part 9.
+The CALIBRATION check will still FAIL: that's Part 6.
 
 ---
 
-### Part 5: The transmitter
+### Part 5: The calibration loop
+
+![calibration loop](docs/schematics/cal_loop.svg)
+
+Calibration needs a wire carrying a known, steady current in a known place. In Stage 1 the interface makes that current itself: its MAIN L output plays a tone into a rectangle of wire on the ground, and the software works out exactly what field every part of the rectangle makes at each coil.
+
+**Step 1: The cable.** Take a ¼ in **TRS** cable (two black bands on the plug) and cut it about 1 m from the plug. Strip 40 mm of jacket: inside are two insulated wires (tip and ring) and a shield (sleeve). Use the meter's continuity beep to find which wire goes to the **tip** and which to the **ring**. Cut the shield back and tape it: it isn't used.
+
+**Step 2: The resistor.** Solder the **47 Ω** resistor in series with the **tip** wire. Then solder an alligator clip on the free end of the resistor, and another on the **ring** wire. Heat-shrink everything.
+
+**Check:** the meter between the two alligator clips reads **OL** (nothing connected yet). Each clip to its plug contact: 47 Ω through the tip, 0 Ω through the ring.
+
+**Step 3: Lay the loop** on open ground, away from fences, vehicles and anything buried you know of:
+
+1. A rectangle **9 m × 5 m (29 ft 6 in × 16 ft 5 in)** from the 100 ft spool of 18 AWG. Pin the corners with tent pegs and make them **square** (3-4-5 rule: 3 ft along one side, 4 ft along the other, and the diagonal between those marks is exactly 5 ft).
+2. Pull the wire flat against the ground all the way round. Tape or peg it every metre or so on the long side you'll calibrate beside.
+3. The wire's two ends meet at one corner. Clip the two alligator clips there, one to each end.
+
+The sizes matter: the software assumes 9 m × 5 m (`CAL_LOOP_LENGTH`, `CAL_LOOP_WIDTH` in `locator/config.py`). If your loop ends up a different size, measure it and change those two numbers.
+
+---
+
+### Part 6: Calibration
+
+Calibration measures each coil's gain relative to the bottom H coil, once per frequency. It's what makes the depth honest, so take your time.
+
+```text
+   seen from above; you stand ON the right-hand side, facing up the page
+
+         ┌──────── 5 m ────────┐
+         │                     │
+         │  the rest of the    │ ◄ this right-hand side (9 m long) is the
+         │  loop is on your    │   one you stand on and calibrate beside
+         │  LEFT               │
+         │                     │
+         │          ▲    ▲   (you)   ▲    ▲     flags at its middle, square to it:
+         │         0.8  0.5    │    0.5  0.8 m  0.8 m = 31.5 in, 0.5 m = 19.7 in
+         │                     │
+         └─────────────────────┘ ◄ loop ends here, clipped to the TRS cable
+
+   "The wire is 19.7 in to your RIGHT" means: plant the tip on the 19.7 in flag
+   to the LEFT of the wire (inside the loop), so that the wire is on your right.
+```
+
+1. Put four flags at the distances above, measured square to the wire, at the middle of the long side.
+2. Plug the TRS cable into the interface's **MAIN OUT L**.
+3. Free the interface and run calibration:
+
+   ```bash
+   sudo systemctl stop powerline-locator
+   python3 calibrate.py
+   ```
+
+4. It does **90 Hz** first (that's the one power mode uses), then 8 kHz and 33 kHz, which you'll want in Stage 2. It plays each tone itself. For each position it names, plant the tip at the flag, staff **upright** (check it against something vertical), stand still, press Enter, and keep still for about 4 seconds.
+
+At the end of each frequency it prints each coil's gain and fit error. **Every fit error should be under 3 %.** If one isn't, the usual causes are: a flag off by more than an inch, the staff tilted, metal nearby, the loop not square or not 9 m × 5 m, or a coil that's shifted on the board. Fix it and re-run just that frequency, e.g. `python3 calibrate.py --only 90`.
+
+* **Weak 90 Hz:** turn the MAIN knob up a little (but no higher than needed: if it says the inputs are clipping, turn it down).
+* **Weak 33 kHz:** that's near the top of what the interface's output can make. Leave it for now; Stage 2 can calibrate 33 kHz with the transmitter.
+
+**Check:** `python3 check_hw.py --only cal` shows **power (90 Hz cal)** as PASS (and the other two if they worked). Unplug the TRS cable and pick up the loop.
+
+---
+
+### Part 7: Check it on a line you know, then lock it down
+
+Calibration on the loop proves the gains. To prove the whole thing, find a live line whose route and depth you already know: your own well-pump line where you saw it go in, a service you watched being trenched, a trench that's still open.
+
+1. Restart the locator: `sudo systemctl start powerline-locator`. Press MODE until it shows **60 Hz POWER**.
+2. Turn on the biggest load on that line.
+3. Walk across the line where you know it is (Section 8, "Find it"). **Good:** AT PEAK within about a foot of where you know it runs, and the real depth inside the range shown.
+
+When it reads right, lock the SD card so a pulled battery can never corrupt it:
+
+```bash
+./lockdown.sh on
+sudo reboot
+```
+
+To recalibrate or update later: `./lockdown.sh off`, reboot, do the work, `./lockdown.sh on`, reboot.
+
+---
+
+## 8. Using Stage 1: power mode
+
+The line has to be **live and carrying current** while you sweep. No current, no field.
+
+### Get ready
+
+1. **Turn on a big load** at the far end: the well pump (run a hose), a space heater, a welder, an air compressor. Bigger and steadier is better. A pump that cycles on and off will make the reading jump.
+2. Press MODE until the screen says **60 Hz POWER** (a build with no 8 kHz calibration starts there).
+3. Start a few steps away from where the line leaves the meter or panel, along its likely route.
+
+### Find it
+
+1. **Find the direction:** hold the staff upright, tip just touching the ground, board face toward you, and turn on the spot. The signal bar and the pitch are highest when you're **facing along the line**.
+2. **Sweep across it:** walk slowly sideways, straight across the line's route, well past it on both sides. The buzzer's pitch climbs as you get closer and is highest over the line. The screen shows how far below the strongest reading you are (`-2.4 dB`), and **AT PEAK** with a double chirp when you're within a whisker of it.
+3. **Pin it down by bracketing:** the peak is broad, so don't trust one pass. Note where the screen reads about **-3 dB** on each side; the line is **halfway between** those two spots. Mark that point with a flag or paint.
+4. **Follow it:** every few steps along the route, **hold SOUND for a second** (a short beep: the peak memory is cleared, the sound stays as it was), then sweep across again and mark the new centre. Clearing it matters: the screen measures against the strongest reading so far, and the line gets weaker where it runs deeper.
+
+### Read the depth range
+
+At the peak, the screen shows something like **3' 2" to 7' 0" deep**. The line is somewhere in that range:
+
+* The **first** number is the depth if the field comes from one wire; it's the **shallowest** the line can be. **Dig as if the line could be that shallow.**
+* The **second** number is the depth if the field comes from a tight pair (hot and neutral side by side); it's the deepest.
+* The range is wide on purpose. A single number in power mode would be a guess dressed up as a measurement.
+
+### What can fool it
+
+* **The peak can sit up to about a foot and a half off the line** on some cables, when the field is a mix of a pair and a stray single current. Nothing in power mode can see that shift. Hand dig a wide enough strip.
+* **Other live lines nearby** (an overhead drop, the house wiring, the neighbour's service) all hum at 60 Hz too. Stay a few yards from the house and from overhead lines, and watch for the peak jumping somewhere unexpected.
+* **No load, no signal.** If it goes WEAK SIGNAL halfway along, check the load is still running.
+* **Your own solar wiring** only shows up while the inverter is actually supplying a load.
+
+---
+
+## 9. Stage 2: the transmitter and clamp
+
+Stage 2 adds a signal you control. With the transmitter on a line, the staff gets the full treatment: an arrow, a single depth, and the distortion warning, on dead lines, pipes and tracer wire as well as live cables. Build order: **transmitter**, **clamp**, **leads**, **first light**, then the **test range**. If you calibrated 8 kHz and 33 kHz on the loop in Part 6, there's no new calibration to do.
+
+### Part 8: The transmitter
 
 ![transmitter](docs/schematics/transmitter.svg)
 
@@ -367,7 +503,7 @@ Use 18 AWG for all of this.
 
 ---
 
-### Part 6: The clamp
+### Part 9: The clamp
 
 ![clamp](docs/schematics/clamp.svg)
 
@@ -380,7 +516,7 @@ Use 18 AWG for all of this.
 
 ---
 
-### Part 7: Leads and stakes
+### Part 10: Leads and stakes
 
 * **RED lead:** a banana-to-alligator test lead.
 * **Short BLACK lead:** the other test lead, for the clamp or a stake close by.
@@ -389,74 +525,36 @@ Use 18 AWG for all of this.
 
 ---
 
-### Part 8: First light
+### Part 11: First light
 
 Do this on open ground, away from fences and buried lines.
 
-1. Lay 20 m (65 ft) or more of the calibration wire **dead straight** on the ground.
+1. Lay 20 m (65 ft) or more of the 18 AWG wire **dead straight** on the ground.
 2. Far end: clip it to a stake pushed into the ground. Near end: clip it to the transmitter's **RED**. Second stake 2 to 3 m off to the side of the near end, to **BLACK** with the long lead. If the ground is very dry, pour a litre of water round each stake.
 3. Transmitter on: **8 kHz** (green), **HIGH**.
 4. Receiver: power on and wait for the screen (about 30 s from cold). MODE until it shows **8 kHz**.
 5. Walk to the middle of the wire, face along it, staff upright, tip on the ground.
 
-**Check:** the signal bar is high, well over 40 dB. Step sideways across the wire: the bar peaks right over it. The screen will say NOT CALIBRATED: that's next.
+**Check:** the signal bar is high, well over 40 dB. Step sideways across the wire: the arrow points at it, and right over it the screen shows **ON LINE** and a depth of about **0' 0"** to **0' 1"** (the wire is lying at the tip). If it says NOT CALIBRATED for 8 kHz, go back to Part 6 and run `python3 calibrate.py --only 8192`.
 
 ---
 
-### Part 9: Calibration
-
-Calibration measures each coil's gain relative to the bottom H coil, once per frequency. It's what makes the depth honest, so take your time. You need the same setup as Part 8.
-
-```text
-            wire (20 m+, dead straight on the ground)
-   ─────────────────────────────────────────────────────────── 
-          ▲        ▲        ▲        ▲
-       31.5 in  19.7 in  19.7 in  31.5 in      ◄ flags, measured square to the wire
-       (0.8 m)  (0.5 m)  (0.5 m)  (0.8 m)
-       ◄──── your LEFT        your RIGHT ────►
-
-   You stand at the middle, facing along the wire, board face toward you.
-   "The wire is 19.7 in to your RIGHT" means: plant the tip 19.7 in to the LEFT
-   of the wire, so that the wire is on your right.
-```
-
-1. Put four flags at the distances above, measured square to the wire, at its middle.
-2. Free the interface and run calibration:
-
-   ```bash
-   sudo systemctl stop powerline-locator
-   python3 calibrate.py
-   ```
-
-3. It asks for **8 kHz** first. Set the transmitter, press Enter. For each position it names, plant the tip at the flag, staff **upright** (check it against something vertical), stand still, press Enter, and keep still for about 4 seconds.
-4. Then **33 kHz**, then **90 Hz CAL**, the same way.
-
-At the end of each frequency it prints each coil's gain and fit error. **Every fit error should be under 3 %.** If one isn't, the usual causes are: a flag off by more than an inch, the staff tilted, metal nearby, or a coil that's shifted on the board. Fix it and re-run just that frequency, e.g. `python3 calibrate.py --only 8192`.
-
-**Check:** `python3 check_hw.py --only cal` shows all three as PASS. Restart the service (`sudo systemctl start powerline-locator`): the screen now shows a depth when you stand over the wire. Right over the wire it should read about **0' 0"** to **0' 1"** (the wire is lying at the tip) with ON LINE, and from each flag the arrow should point at the wire and give about the flag's distance.
-
----
-
-### Part 10: The test range, then lock it down
+### Part 12: The test range
 
 A wire on the ground proves the gains; only a wire at a **known depth** proves the depth. Next time you have a trench open (the pump room, the catchment line), lay 20 m of wire along the bottom at a measured 4 ft, with both ends brought up to the surface on stakes, before you backfill. That's your permanent test range.
 
-1. Connect the transmitter to one end; ground the other end's stake.
-2. Stand over the middle, ON LINE, and read the depth. Then turn round 180° and read it again: on a clean, single line the two readings agree.
-3. **Good:** within about 10 % of the real depth (4 ft reads between 3' 7" and 4' 5").
+1. Unlock the card first (`./lockdown.sh off`, reboot) if you might want to recalibrate.
+2. Connect the transmitter to one end; ground the other end's stake.
+3. Stand over the middle, ON LINE, and read the depth. Then turn round 180° and read it again: on a clean, single line the two readings agree.
+4. **Good:** within about 10 % of the real depth (4 ft reads between 3' 7" and 4' 5").
 
-When it reads right, lock the SD card so a pulled battery can never corrupt it:
+**33 kHz weak on the loop?** Calibrate it with the transmitter instead, on a straight wire like Part 11's, with flags as in Part 6 but either side of the straight wire's middle: `python3 calibrate.py --source transmitter --only 32768`.
 
-```bash
-./lockdown.sh on
-sudo reboot
-```
-
-To recalibrate or update later: `./lockdown.sh off`, reboot, do the work, `./lockdown.sh on`, reboot.
+Lock the card again when you're done.
 
 ---
 
-## 8. Using it
+## 10. Using Stage 2
 
 ### Pick a method
 
@@ -464,7 +562,7 @@ To recalibrate or update later: `./lockdown.sh off`, reboot, do the work, `./loc
 |---|---|---|
 | Line is **off** and proved dead, with an exposed end (pipe stub, cable end, tracer wire) | **Direct**: RED to the line, BLACK to a stake 10 ft+ off to the side, at right angles to where the line probably runs | 8 kHz, HIGH |
 | Line is or might be **live**, and you can get at it above ground (a riser, a meter's ground wire) | **Clamp** round it; RED and BLACK both to the clamp; no stake | 33 kHz, HIGH |
-| Line is live and you can't reach it | **Power mode**: no transmitter. Turn on a big load at the far end | none |
+| Line is live and you can't reach it | **Power mode** (Section 8): no transmitter. Turn on a big load at the far end | none |
 
 ### Find it
 
@@ -487,7 +585,9 @@ The field doesn't match one straight line. Don't trust the depth there. Try, in 
 
 ---
 
-## 9. The lending card
+---
+
+## 11. The lending card
 
 Print this, laminate it, and zip-tie it to the staff.
 
@@ -496,23 +596,31 @@ POWERLINE LOCATOR
 
 FIRST: call 811 (or nm811.org) for the utility's own lines. This finds the rest.
 
-1. Live line?   Clamp it (33 kHz) or use 60 Hz POWER mode.
-                NEVER clip RED or BLACK to anything that might be live.
-                Clamp only round insulated cable, never bare wire.
-   Dead line?   RED to the line, BLACK to a stake 10 ft off to the side (8 kHz).
-2. Staff upright, tip on the ground, board face toward you, facing along the line.
-3. Step the way the arrow points. ON LINE = double beep. Mark it.
-4. Depth: trust it only at ON LINE and not DISTORTED. Turn round: it should agree.
-5. DISTORTED: turn LEVEL down, move the stake further away, move along the line.
-6. HAND DIG within 18 in of every mark until you see the line.
+POWER MODE (no transmitter: live lines only)
+1. Turn on a big load at the far end (pump, heater). MODE until "60 Hz POWER".
+2. Staff upright, tip on the ground, board face toward you.
+3. Turn on the spot: loudest = facing along the line.
+4. Walk slowly across it. Highest pitch = over it. "AT PEAK" = double beep.
+   Find -3 dB on each side; the line is halfway between. Mark it.
+   New spot? HOLD the SOUND button 1 s to clear the peak, then sweep again.
+5. Depth range "3' 2" to 7' 0"": dig as if it's as shallow as the FIRST number.
 
+WITH THE TRANSMITTER
+1. Live line?   Clamp it (33 kHz). NEVER clip RED or BLACK to anything that might
+                be live. Clamp only round insulated cable, never bare wire.
+   Dead line?   RED to the line, BLACK to a stake 10 ft off to the side (8 kHz).
+2. Step the way the arrow points. ON LINE = double beep. Mark it.
+3. Depth: trust it only at ON LINE and not DISTORTED. Turn round: it should agree.
+4. DISTORTED: turn LEVEL down, move the stake further away, move along the line.
+
+ALWAYS: HAND DIG within 18 in of every mark until you see the line.
 Don't turn the knobs on the grey box. Charge the battery with its own charger.
 Blown fuse on the transmitter = it was connected to something live. Tell me.
 ```
 
 ---
 
-## 10. Common mistakes
+## 12. Common mistakes
 
 | Symptom | Likely cause |
 |---|---|
@@ -522,7 +630,12 @@ Blown fuse on the transmitter = it was connected to something live. Tell me.
 | An input CLIPPING | **+48V phantom is on.** Switch it off on the back of the interface. |
 | Screen blank | Display VIN/GND swapped or loose; SPI off (`check_hw.py --only pi`); try DISP to the display's own 3V3 pin |
 | Screen text mirrored | Set `DISPLAY_MIRROR = True` in `locator/config.py` |
-| Calibration fit error over 3 % | Flags off, staff tilted, metal nearby, or a coil moved on the board |
+| Calibration fit error over 3 % | Flags off, staff tilted, metal nearby, a coil moved on the board, or the loop not square or not 9 m × 5 m |
+| Calibration says weak, or the signal is tiny | MAIN knob down, MIX not at PLAYBACK, TRS cable in the wrong output, or a loop end not clipped on |
+| Calibration says the inputs are clipping | MAIN knob too high: turn it down a little |
+| Power mode: WEAK SIGNAL | The load isn't running, or it's too small. Try a bigger one. |
+| Power mode: never says AT PEAK in the same place twice | A cycling load (pump, fridge) is changing the current: use a steady load, or wait for it to settle |
+| Power mode: peak right by the house or under an overhead line | Those hum at 60 Hz too. Start a few yards out and sweep away from them |
 | Depth reads about the same everywhere and wrong | Calibrated with the knobs in a different place: put them fully clockwise and recalibrate |
 | WEAK SIGNAL at a few feet | Stake in dry ground (water it, push it deeper); transmitter on LOW; far end of the line not grounded (clamp needs both ends grounded) |
 | DISTORTED near the transmitter | Normal: the stake's return current is close by. Walk further along the line. |
@@ -532,20 +645,24 @@ Blown fuse on the transmitter = it was connected to something live. Tell me.
 
 ---
 
-## 11. Glossary
+## 13. Glossary
 
 | Word | Meaning |
 |---|---|
 | **AWG** | American Wire Gauge: bigger number, thinner wire. 30 AWG is about 0.25 mm; 18 AWG about 1 mm. |
 | **Bleed-over** | The transmitter's signal leaking onto neighbouring lines, so they show up too |
+| **Bracketing** | Finding the -3 dB point on each side of a peak and taking the halfway point: more precise than the peak itself |
 | **Calibration** | Measuring each coil's sensitivity relative to the others, so their ratio means something |
 | **Clamp** | A split ferrite ring that puts the signal on a cable by induction, without touching it |
 | **dB** | A log scale. Here, how far the signal is above the noise: 20 dB = 10×, 40 dB = 100×, 60 dB = 1000× |
 | **Direct connection** | RED clipped to the line itself, BLACK to a ground stake |
 | **Distortion** | The field not matching the shape of one straight line |
 | **Drain wire** | A bare wire that connects a foil shield to ground |
+| **Gradient** | The difference between the bottom and top coils' readings. Power mode follows it because it peaks sharper than either reading alone |
 | **Lock-in** | Measuring the signal at exactly one frequency and ignoring everything else |
 | **Phantom power (+48V)** | Power a mic interface can send down the cable for condenser mics. Off, for coils. |
-| **Power mode** | Listening for the 60 Hz a live, loaded cable carries, with no transmitter |
+| **Power mode** | Listening for the 60 Hz a live, loaded cable carries, with no transmitter (Stage 1) |
+| **Stage 1 / Stage 2** | Stage 1: the receiver alone, power mode. Stage 2: adds the transmitter and clamp |
+| **TRS** | A ¼ in plug with tip, ring and sleeve contacts |
 | **Tolerance zone** | 18 in either side of a mark, where New Mexico law says to dig by hand |
 | **Tracer wire** | A copper wire buried with a plastic pipe so the pipe can be found later. Always lay one. |

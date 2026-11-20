@@ -1,4 +1,20 @@
-"""From raw blocks to an answer: signal strength, depth, left/right, warnings."""
+"""From raw blocks to an answer: signal strength, depth, left/right, warnings.
+
+Two kinds of answer:
+
+* Active (8 kHz / 33 kHz, transmitter on the line). The source is one known
+  current, so the four coils pin down position, depth and a distortion check.
+* Power (60 Hz, no transmitter). A live cable is hot and neutral side by side,
+  plus whatever net current leaks back through the earth: an unknown mix of a
+  single-wire field and a pair field. Four coils can't separate those, and the
+  mix really does look like one wire shifted sideways. So power mode does what
+  commercial locators do: it finds the PEAK of a field strength that peaks
+  right over the line for one wire or a pair at any orientation, and gives a
+  depth RANGE. The strength used is the GRADIENT, |B(bottom)| - |B(top)|: the
+  total field at each pair is orientation-proof, and subtracting the top pair
+  narrows the peak by about 40 %. (The horizontal coil alone would be a bad
+  choice: a side-by-side pair puts its peak a metre off the line.)
+"""
 import json
 import math
 import os
@@ -7,7 +23,7 @@ import time
 import numpy as np
 
 from . import config
-from .geometry import is_distorted, solve
+from .geometry import is_distorted, pair_strengths, power_depth_range, solve
 from .lockin import Tracker, find_frequency
 
 
@@ -49,7 +65,8 @@ def lock_frequency(source, nominal, span, seconds=1.0):
 # ------------------------------------------------------------------ result --
 class Estimate:
     __slots__ = ("snr_db", "signal", "depth", "x", "distorted", "rel_resid",
-                 "overload", "calibrated", "freq", "status")
+                 "overload", "calibrated", "freq", "status",
+                 "power", "depth_hi", "peak_db", "at_peak")
 
     def __init__(self, **kw):
         for k in self.__slots__:
@@ -62,7 +79,10 @@ class Estimate:
 class Locator:
     """Feeds blocks to a lock-in and turns its output into an Estimate."""
 
-    def __init__(self, freq, gains=None, rate=None, block=None):
+    def __init__(self, freq, gains=None, rate=None, block=None, power=False):
+        self.power = power
+        self.peak_hold = 0.0
+        self.peak_time = None
         self.rate = rate or config.SAMPLE_RATE
         self.block = block or config.BLOCK
         self.freq = freq
@@ -85,7 +105,7 @@ class Locator:
         snr = t.snr_db(0)
         signal = float(abs(t.s[0]))
         e = Estimate(snr_db=snr, signal=signal, overload=overload, freq=self.freq,
-                     calibrated=self.gains is not None, distorted=False)
+                     calibrated=self.gains is not None, distorted=False, power=self.power)
         if overload:
             e.status = "overload"
             return e
@@ -96,6 +116,8 @@ class Locator:
             e.status = "uncalibrated"
             return e
         u = t.s / self.gains
+        if self.power:
+            return self._power(e, u)
         sig = t.sigma() / np.abs(self.gains)
         fit = solve(u, sig)
         e.rel_resid = fit["rel_resid"]
@@ -110,6 +132,29 @@ class Locator:
         e.depth = fit["depth"] - config.TIP_HEIGHT
         e.x = fit["x"]
         return e
+
+
+    def _power(self, e, u):
+        """Peak hold on the field gradient, and a depth range."""
+        now = time.monotonic()
+        b, t, _, _ = pair_strengths(u)
+        g = max(b - t, 1e-30)
+        if self.peak_time is not None:
+            # the held peak sinks slowly, so walking along the line keeps working
+            self.peak_hold *= 10 ** (-config.PEAK_DECAY_DB_S * (now - self.peak_time) / 20.0)
+        self.peak_time = now
+        self.peak_hold = max(self.peak_hold, g)
+        e.peak_db = 20.0 * math.log10(g / self.peak_hold)
+        e.at_peak = e.peak_db > -config.PEAK_WITHIN_DB
+        lo, hi = power_depth_range(u)
+        if lo is not None:
+            e.depth = lo - config.TIP_HEIGHT
+            e.depth_hi = min(hi, config.SEARCH_DEPTH[1]) - config.TIP_HEIGHT
+        e.status = "ok"
+        return e
+
+    def reset_peak(self):
+        self.peak_hold = 0.0
 
 
 # ------------------------------------------------------------------ units --

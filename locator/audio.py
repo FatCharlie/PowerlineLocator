@@ -98,6 +98,55 @@ class AlsaSource:
             pass
 
 
+class ToneOut:
+    """A steady sine on the interface's MAIN L output, for loop calibration.
+
+    It comes off the same clock as the inputs, so its frequency at the
+    inputs is exact: no frequency search needed.
+    """
+
+    def __init__(self, freq, level=None, rate=None, channels=None, period=4800):
+        import threading
+        import alsaaudio
+        self.rate = rate or config.SAMPLE_RATE
+        self.freq = float(freq)
+        self.level = config.CAL_TONE_LEVEL if level is None else level
+        self.channels = channels or config.CAL_OUT_CHANNELS
+        self.period = period
+        name = device_name()
+        try:
+            self.pcm = alsaaudio.PCM(type=alsaaudio.PCM_PLAYBACK, mode=alsaaudio.PCM_NORMAL,
+                                     device=name, channels=self.channels, rate=self.rate,
+                                     format=alsaaudio.PCM_FORMAT_S32_LE, periodsize=period)
+        except alsaaudio.ALSAAudioError as e:
+            raise AudioError("can't open %s for playback: %s" % (name, e)) from e
+        self.n = 0
+        self.running = True
+        self.thread = threading.Thread(target=self._run, daemon=True)
+        self.thread.start()
+
+    def _block(self):
+        k = self.n + np.arange(self.period)
+        self.n += self.period
+        cyc = np.mod(k * (self.freq / self.rate), 1.0)
+        tone = (self.level * 2147483647.0 * np.sin(2 * np.pi * cyc)).astype("<i4")
+        out = np.zeros((self.period, self.channels), dtype="<i4")
+        out[:, 0] = tone
+        return out.tobytes()
+
+    def _run(self):
+        while self.running:
+            self.pcm.write(self._block())
+
+    def stop(self):
+        self.running = False
+        self.thread.join(timeout=1.0)
+        try:
+            self.pcm.close()
+        except Exception:
+            pass
+
+
 def open_source(sim=None):
     """The real interface, or a simulator if sim is a SimSource."""
     if sim is not None:

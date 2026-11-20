@@ -65,6 +65,8 @@ DISTORT_CHI2 = 9.0           # ...and well above what noise alone explains
 SEARCH_X = (-3.0, 3.0)       # m, where the solver looks for the line
 SEARCH_DEPTH = (0.0, 4.0)    # m below the tip (0 = a wire lying on the ground)
 UNITS = "imperial"           # or "metric"
+PEAK_DECAY_DB_S = 0.1        # power mode: the held peak sinks this fast (hold SOUND to reset)
+PEAK_WITHIN_DB = 0.3         # power mode: "AT PEAK" within this of the held peak
 
 # ------------------------------------------------------------------ Pi pins --
 SPI_BUS, SPI_DEV = 0, 1      # SPI0; CE1 (pin 26) toggles but goes nowhere
@@ -79,6 +81,18 @@ DISPLAY_INVERT = False       # set True if the screen shows white on black
 
 # ----------------------------------------------------------- calibration --
 CAL_FILE = os.path.join(REPO, "cal.json")
+# Calibration source.
+#   "loop": Stage 1. A rectangle of wire on the ground, driven by the
+#           interface's own MAIN L output. No transmitter, no ground stakes,
+#           and the tone is locked to the same clock as the inputs.
+#   "transmitter": a long straight wire, ground stakes at both ends, driven
+#           by the transmitter (Stage 2 only).
+CAL_SOURCE = "loop"
+CAL_LOOP_LENGTH = 9.0        # m, the long side you stand beside (29 ft 6 in)
+CAL_LOOP_WIDTH = 5.0         # m, the short sides (16.4 ft)
+CAL_LOOP_SIDE = -1           # the rest of the loop is on your LEFT (-1) or RIGHT (+1)
+CAL_TONE_LEVEL = 0.5         # fraction of full scale sent to MAIN L
+CAL_OUT_CHANNELS = 2         # MAIN L / R; the tone goes on L only
 # Where the calibration wire sits relative to the tip, metres: negative = the
 # wire is to your LEFT. Kept at 0.5 m or more so the coils' length hardly
 # matters and the field is close to that of an ideal line.

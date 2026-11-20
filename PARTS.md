@@ -2,11 +2,20 @@
 
 Prices are rough, in US dollars, and drift. Where a part has a manufacturer number, buy that exact part; where it doesn't, the **search phrase** finds equivalents on Amazon, eBay, AliExpress or Mouser. Status: **Needed** = still to buy, **Have** = in hand.
 
-**Rough total:** receiver about $340, transmitter and clamp about $180, so about **$520**. The two big items are the UMC404HD interface (~$100) and the 12 V battery (~$40). Ways to spend less are at the [end](#spending-less).
+The build comes in two stages ([README](README.md) explains why):
 
-Order in this order so nothing waits on shipping: the slow, specific parts first (display, split cores, Pico, DRV8871), then everything generic.
+| Stage | What you get | Sections | ~$ (as listed) | ~$ if you have the "Have?" items |
+|---|---|---|---|---|
+| **1: the receiver** | Finds live, loaded power cables: peak and depth range. Calibrates itself with a wire loop. | A, B, E | **445** | **410** |
+| **2: transmitter and clamp** | Adds dead lines, pipe, tracer wire, an arrow, one depth, the distortion warning | C, D | **195** | **185** |
+
+The big items are the UMC404HD interface (~$100), the Pi (~$45), the sunlight-readable screen (~$45) and, in Stage 2, the 12 V battery (~$40). Ways to spend less are at the [end](#spending-less).
+
+Order the slow, specific parts first (the display; in Stage 2, the split cores, Pico and DRV8871), then everything generic.
 
 ---
+
+# Stage 1
 
 ## A. Receiver: electronics
 
@@ -45,6 +54,22 @@ Order in this order so nothing waits on shipping: the slow, specific parts first
 | B13 | Hand-crank ("egg-beater") hand drill | 1 | "hand crank drill egg beater" | 18 | For winding. A cordless drill on its slowest setting works too. | Needed |
 | B14 | Hand tally counter (clicker) | 1 | "hand tally counter" | 5 | Counting crank turns. | Needed |
 
+## E. Calibration loop
+
+The interface drives this loop itself, so Stage 1 needs no transmitter for calibration (for_dummies.md, Parts 5 and 6).
+
+| # | Item | Qty | Search phrase or link | ~$ | Notes | Status |
+|---|---|---|---|---|---|---|
+| E1 | 100 ft spool of 18 AWG stranded wire (single conductor) | 1 | "18 AWG stranded wire 100 ft" | 15 | The 9 m × 5 m loop takes 28 m (92 ft), leaving about 8 ft for the ends. Stage 2 reuses it as the straight test wire. | Needed |
+| E2 | ¼ in **TRS** (stereo) cable, 6 ft | 1 | "1/4 TRS cable 6 ft balanced" | 8 | Cut it 1 m from one plug; the plug goes into MAIN OUT L. Must be **TRS** (two black bands), not TS. | Needed |
+| E3 | Resistor **47 Ω**, ½ W | 1 | in any resistor kit | | In series with the tip wire: keeps the interface's output comfortable driving a near-short. | Needed |
+| E4 | Small alligator clips | 2 | "small alligator clips" | 3 | Loop ends to the cable. | Have? |
+| E5 | Tape measure, 4 marking flags (or tent pegs), 4 more tent pegs for the loop's corners | | | 5 | Calibration positions and a square loop. | Have? |
+
+---
+
+# Stage 2
+
 ## C. Transmitter
 
 | # | Item | Qty | Search phrase or link | ~$ | Notes | Status |
@@ -69,7 +94,7 @@ Order in this order so nothing waits on shipping: the slow, specific parts first
 | C16 | Enclosure, ABS, about 10 × 6 × 4 in (250 × 150 × 100 mm), big enough for the battery | 1 | "ABS junction box 250x150x100mm" | 20 | Battery and electronics in one box: nothing to forget when lending. | Needed |
 | C17 | Banana-to-alligator test leads, 1 m, red and black | 1 set | "banana plug to alligator clip test leads" | 8 | The RED lead and a short BLACK lead. | Needed |
 | C18 | Wire for the long ground lead: 50 ft of 16 AWG stranded, plus one banana plug and one big alligator clip | 1 | "16 AWG stranded wire 50 ft" | 12 | Reaches a stake well off to the side. | Needed |
-| C19 | Ground stakes: 18 in steel tent stakes or short rebar | 2 | "18 inch steel tent stake" | 8 | Two are needed for calibration. | Needed |
+| C19 | Ground stakes: 18 in steel tent stakes or short rebar | 2 | "18 inch steel tent stake" | 8 | One for direct connection; two for the straight test wire. | Needed |
 
 ## D. Clamp
 
@@ -78,16 +103,13 @@ Order in this order so nothing waits on shipping: the slow, specific parts first
 | D1 | Fair-Rite **0431177081** snap-on split ferrite core (31 material, 25.65 mm hole) | 2 | "Fair-Rite 0431177081" (Mouser, Digi-Key) | 20 | 31 material is the one that works well down at 8 to 33 kHz. Cheap unbranded clip-on ferrites are usually made for MHz and won't. | Needed |
 | D2 | 20 AWG stranded hook-up wire, 2 m, and 2 banana plugs | | | 5 | 10-turn winding and leads. | Needed |
 
-## E. Calibration and testing
+---
 
-| # | Item | Qty | Search phrase or link | ~$ | Notes | Status |
-|---|---|---|---|---|---|---|
-| E1 | 100 ft spool of 18 AWG stranded wire (single conductor) | 1 | "18 AWG stranded wire 100 ft" | 15 | The calibration wire: needs at least 65 ft (20 m) laid straight. Also the test-range wire. | Needed |
-| E2 | Tape measure and 4 marking flags (or tent pegs) | | | 5 | Calibration positions. | Have? |
+# Both stages
 
 ## F. Tools
 
-You likely have most of these.
+You likely have most of these. The crimper is only for Stage 2's battery.
 
 * Multimeter with continuity, resistance and DC volts
 * Soldering iron, solder, flux; helping hands
@@ -102,7 +124,8 @@ You likely have most of these.
 
 * **Reuse a Pi** you already have (A1, A2): saves $55. The Pi can still run other things when not in the locator.
 * **Skip the screen** (A4, A12's window, A13): the software falls back to printing on a terminal, and the buzzer still guides you. Saves about $50, but makes it much worse as a loaner.
+* **Stop at Stage 1** if live cables are all you need to find: saves the whole $195 of Stage 2.
 * **Use any 12 V battery** you have (C4): a small lead-acid or a tool-battery adapter both work. The DRV8871 takes anything from 6.5 to 45 V. Saves $40.
-* **Skip the clamp** (D1, D2): direct connection and power mode still work. Saves $25, but the clamp is the only safe way to put a signal on a live line.
+* **Skip the clamp** (D1, D2): direct connection on dead lines still works. Saves $25, but the clamp is the only safe way to put the transmitter's signal on a live line.
 
-What not to skimp on: the UMC404HD (four matched preamps on one clock is what makes the depth maths work), and the transmitter's protection parts (C5, C8, C9, C10), which are what make it safe to lend.
+What not to skimp on: the UMC404HD (four matched preamps on one clock is what makes the depth maths work, and its output is what calibrates Stage 1), and the transmitter's protection parts (C5, C8, C9, C10), which are what make it safe to lend.

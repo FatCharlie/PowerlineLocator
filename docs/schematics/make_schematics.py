@@ -231,6 +231,8 @@ def draw_system():
     # transmitter, left
     s.rect(60, 330, 230, 150, fill=C["body"], rx=8)
     s.text(175, 360, "TRANSMITTER", 18, "middle", "bold")
+    s.rect(60, 300 - 2, 82, 22, fill="#ff7f0e", stroke="none", rx=4)
+    s.text(101, 314, "STAGE 2", 12, "middle", "bold", "white")
     s.text(175, 384, "Pico + DRV8871 H-bridge", 13, "middle", color=C["note"])
     s.text(175, 402, "12 V LiFePO4 battery", 13, "middle", color=C["note"])
     s.text(175, 420, "8 kHz / 33 kHz / 90 Hz CAL", 13, "middle", color=C["note"])
@@ -245,7 +247,7 @@ def draw_system():
     s.wire([(240, 466), (240, 520), (380, 520), (380, gy + 90)], C["gnd"], 3)
     s.path("M 372 %d L 388 %d L 380 %d Z" % (gy + 90, gy + 90, gy + 118), fill="#666")
     s.note(392, gy + 106, "ground stake, 10 ft or more\noff to the side", 13)
-    s.note(60, 300, "B (live lines): no contact at all. RED and BLACK go to\n"
+    s.note(60, 270, "B (live lines): no contact at all. RED and BLACK go to\n"
                     "the CLAMP, which snaps around the cable or its ground wire.", 13)
 
     # the staff
@@ -269,6 +271,8 @@ def draw_system():
         s.wire([(sx + 20 + i * 8, cy - 12), (sx + 20 + i * 8, 282)], C["ana"], 2, dash="5,4")
     s.note(sx + 40, 320, "XLR leads", 13)
     s.text(sx, gy + 30, "tip on the ground", 12, "middle", color="#5a4630")
+    s.rect(sx - 41, 76, 82, 22, fill="#2ca02c", stroke="none", rx=4)
+    s.text(sx, 92, "STAGE 1", 12, "middle", "bold", "white")
 
     # field circles around the line, drawn as a cross-section inset
     ix, iy = 1250, 300
@@ -705,6 +709,79 @@ def draw_field():
     s.save("field.svg")
 
 
+# ===================================================== 8. calibration loop ==
+def draw_cal_loop():
+    s = Svg(1500, 900, "Stage 1 calibration loop (seen from above)")
+    k = 62.0                                    # px per metre
+    nx, top = 1000, 110                         # near leg x, top of the loop
+    L, W = 9.0, 5.0
+    bot = top + L * k
+    fx = nx - W * k
+    s.rect(fx, top, W * k, L * k, fill="#f7f3ea", stroke="none")
+    s.wire([(nx, top), (fx, top), (fx, bot), (nx, bot)], C["copper"], 4)
+    s.wire([(nx, top), (nx, bot - 4)], C["copper"], 4)
+    s.text((nx + fx) / 2, top - 14, "5 m (16 ft 5 in)", 15, "middle", "bold")
+    s.text(fx - 14, (top + bot) / 2, "9 m", 15, "end", "bold")
+    s.text(fx - 14, (top + bot) / 2 + 18, "(29 ft 6 in)", 13, "end")
+    s.text((nx + fx) / 2, (top + bot) / 2, "the rest of the loop is on your LEFT", 15, "middle", color=C["note"])
+    for cx, cy in ((nx, top), (fx, top), (fx, bot)):
+        s.circle(cx, cy, 6, fill="#666")
+    s.note(fx - 10, bot + 26, "corners pegged and square (3-4-5)", 13)
+    # the user, flags
+    my = (top + bot) / 2
+    s.circle(nx, my + 36, 18, fill="#ffe0c0")
+    s.text(nx, my + 41, "you", 12, "middle", "bold")
+    s.arrow(nx + 40, my + 60, nx + 40, my - 10, C["sig"], 2)
+    s.text(nx + 48, my + 20, "face along the wire", 13)
+    for i, (off, lab) in enumerate(((-0.8, "31.5 in"), (-0.5, "19.7 in"), (0.5, "19.7 in"), (0.8, "31.5 in"))):
+        x = nx + off * k * 2.2
+        s.path("M %f %f L %f %f L %f %f Z" % (x, my - 70, x + 12, my - 64, x, my - 58), fill="#d62728")
+        s.line(x, my - 70, x, my - 40, sw=2)
+        s.text(x, my - 80 - (i % 2) * 16, lab, 11, "middle")
+    s.note(nx - 150, my - 130, "flags, square to the wire, at its middle", 13)
+    s.note(nx - 150, my - 114, "(flag spacing drawn larger than scale)", 11)
+    # the corner connection, near-leg end at the bottom
+    s.wire([(nx, bot - 4), (nx, bot + 40)], C["copper"], 3)
+    s.wire([(nx - 12, bot), (nx - 12, bot + 40)], C["copper"], 3)
+    s.circle(nx, bot + 46, 6, fill="#222")
+    s.circle(nx - 12, bot + 46, 6, fill="#222")
+    s.text(nx + 14, bot + 50, "the loop's two ends, clipped on here", 13)
+
+    # the cable detail, left side
+    dx, dy = 70, 140
+    s.rect(dx, dy - 30, 520, 300, fill="#fafafa", stroke="#bbb", rx=8)
+    s.text(dx + 16, dy - 6, "The TRS cable", 16, weight="bold")
+    s.rect(dx + 20, dy + 40, 70, 34, fill="#bbb", rx=6)
+    s.rect(dx + 90, dy + 48, 50, 18, fill="#ddd", stroke="#222", sw=1)
+    s.line(dx + 104, dy + 48, dx + 104, dy + 66, sw=3)
+    s.line(dx + 122, dy + 48, dx + 122, dy + 66, sw=3)
+    s.text(dx + 20, dy + 18, "\u00bc in TRS plug into MAIN OUT L", 12)
+    s.text(dx + 144, dy + 44, "T", 13, weight="bold")
+    s.text(dx + 120, dy + 44, "R", 13, weight="bold")
+    s.text(dx + 98, dy + 44, "S", 13, weight="bold")
+    s.wire([(dx + 140, dy + 57), (dx + 200, dy + 57)], C["pwr"], 2.5)
+    s.text(dx + 205, dy + 46, "tip", 12)
+    s.resistor(dx + 240, dy + 57, 80, label="47 \u03a9", value="\u00bd W")
+    s.wire([(dx + 200, dy + 57), (dx + 240, dy + 57)], C["pwr"], 2.5)
+    s.wire([(dx + 320, dy + 57), (dx + 420, dy + 57)], C["pwr"], 2.5)
+    s.text(dx + 430, dy + 62, "clip to one end", 13)
+    s.wire([(dx + 122, dy + 66), (dx + 122, dy + 150), (dx + 420, dy + 150)], C["gnd"], 2.5)
+    s.text(dx + 205, dy + 142, "ring", 12)
+    s.text(dx + 430, dy + 155, "clip to the other", 13)
+    s.wire([(dx + 104, dy + 66), (dx + 104, dy + 200)], "#999", 2, dash="4,4")
+    s.text(dx + 112, dy + 205, "sleeve / shield: cut back and taped, unused", 12)
+    s.note(dx + 16, dy + 248, "Interface: MIX fully to PLAYBACK, MAIN at about 3 o'clock.\n"
+                              "calibrate.py plays the tone itself: 90 Hz, then 8 kHz, then 33 kHz.", 13)
+    s.note(70, 520, "Why a loop and not one straight wire: a loop needs no ground\n"
+                    "stakes (dry ground can be hundreds of ohms) and takes little\n"
+                    "current. Its far side and ends DO bend the field the coils see,\n"
+                    "by 15 to 40 % on the vertical coils, so the software calculates\n"
+                    "all four sides with the finite-wire Biot-Savart formula.\n\n"
+                    "If your loop isn't exactly 9 m x 5 m, measure it and set\n"
+                    "CAL_LOOP_LENGTH and CAL_LOOP_WIDTH in locator/config.py.", 14)
+    s.save("cal_loop.svg")
+
+
 if __name__ == "__main__":
     draw_system()
     draw_receiver()
@@ -713,3 +790,4 @@ if __name__ == "__main__":
     draw_clamp()
     draw_staff()
     draw_field()
+    draw_cal_loop()

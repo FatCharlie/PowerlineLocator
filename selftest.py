@@ -136,6 +136,21 @@ def test_calibration():
     g, err = fit_gains(P, m)
     check("recovers gains and signs", np.allclose(g, true, rtol=1e-6), str(np.round(g, 4)))
     check("fit error ~0 on clean data", max(err) < 1e-6)
+    from locator.geometry import line_model, loop_model, segment_field
+    long_seg = loop_model(P, segments=[((0, config.CAL_WIRE_Y, -1e5), (0, config.CAL_WIRE_Y, 1e5))])
+    check("finite-wire Biot-Savart -> infinite wire when long",
+          np.allclose(long_seg, 2 * line_model(P), rtol=1e-8))
+    # a 1 m segment seen from its middle at 0.5 m: (1/d) * 2 * 0.5/sqrt(0.25+0.25)
+    b = np.linalg.norm(segment_field(np.array([0.5, 0.0, 0.0]), (0, 0, -0.5), (0, 0, 0.5)))
+    check("finite segment field value", abs(b - 2 * 0.5 / math.sqrt(0.5) / 0.5) < 1e-12, "%.6f" % b)
+    fl = loop_model(P)
+    ml = 0.02 * fl * true
+    ml = ml * np.sign(ml[:, :1])
+    gl, errl = fit_gains(P, ml, model=fl)
+    check("loop model: recovers gains", np.allclose(gl, true, rtol=1e-6), str(np.round(gl, 4)))
+    _, err_wrong = fit_gains(P, ml)               # pretend it was a straight wire
+    check("loop data fit as a straight wire is flagged", max(err_wrong) > config.CAL_MAX_FIT_ERR,
+          "%.1f %%" % (100 * max(err_wrong)))
     m2 = m.copy()
     m2[1, 3] *= 1.15
     _, err2 = fit_gains(P, m2)
@@ -193,6 +208,24 @@ def test_pipeline():
     g, err = fit_gains(config.CAL_POSITIONS, np.array(rows))
     check("90 Hz calibration under equal 60 Hz hum: gains within 0.5 %",
           np.allclose(g, true, rtol=5e-3), str(np.round(g, 4)))
+
+    # Stage 1: the loop, driven from the interface, hum 5x the tone at the coils
+    from locator.geometry import loop_model
+    for f0 in (90.0, 8192.0):
+        pos = {"x": 0.0}
+        src = SimSource(freq=f0, field_fn=lambda t: loop_model([pos["x"]])[0], gains=true,
+                        noise=2e-5, amplitude=0.002, hum=0.01)
+        tr = Tracker(src.rate, f0, 4, config.TAU, src.block, config.NOISE_OFFSET_HZ,
+                     config.NOISE_OFFSET_ALT_HZ)
+        rows = []
+        for x in config.CAL_POSITIONS:
+            pos["x"] = x
+            calibrate.measure(src, tr, config.CAL_SETTLE_S)
+            rows.append(calibrate.measure(src, tr, config.CAL_AVERAGE_S)[0])
+        g, err = fit_gains(config.CAL_POSITIONS, np.array(rows), model=loop_model(config.CAL_POSITIONS))
+        check("loop calibration at %g Hz under strong hum: gains within 0.5 %%" % f0,
+              np.allclose(g, true, rtol=5e-3) and max(err) < config.CAL_MAX_FIT_ERR,
+              "%s, worst fit %.2f %%" % (np.round(g, 4), 100 * max(err)))
     loc = Locator(8192.0, None)
     src = SimSource()
     for _ in range(20):
@@ -204,6 +237,50 @@ def test_pipeline():
         solve(np.array([1.0, 0.1, 0.7, 0.05]), np.full(4, 1e-3))
     ms = (time.perf_counter() - t) * 100
     check("solver fast enough for 4 updates/s", ms < 120, "%.0f ms per solve here" % ms)
+
+
+# -------------------------------------------------------------- power mode --
+def power_sweep(lines, xs, settle=20):
+    gains = (1.0, -0.93, 1.06, 0.97)
+    pos = {"x": 0.0}
+    src = SimSource(freq=60.0, lines=lines, staff_x=lambda t: pos["x"], gains=gains, noise=2e-6)
+    loc = Locator(60.0, gains, src.rate, src.block, power=True)
+    out = []
+    for x in xs:
+        pos["x"] = x
+        for _ in range(settle):
+            loc.feed(src.read())
+        out.append(loc.estimate())
+    return out
+
+
+def test_power():
+    section("Power mode (no transmitter)")
+    s = 0.012                      # hot and neutral 12 mm apart
+    D = 1.5
+    sources = {
+        "single wire": [(0.0, D, 1.0)],
+        "pair side by side": [(-s / 2, D, 1.0), (s / 2, D, -1.0)],
+        "pair stacked": [(0.0, D - s / 2, 1.0), (0.0, D + s / 2, -1.0)],
+        "pair + 5 % net current": [(-s / 2, D, 1.0), (s / 2, D, -0.95)],
+    }
+    for name, lines in sources.items():
+        # walk out to 1.2 m and back to the line: the peak is where we started
+        xs = [0.0, 0.0, 0.4, 0.8, 1.2, 0.8, 0.4, 0.15, 0.0]
+        est = power_sweep(lines, xs)
+        at_line, off = est[-1], est[4]
+        brackets = at_line.depth is not None and at_line.depth - 0.05 <= D <= at_line.depth_hi + 0.05
+        check("%s: AT PEAK over it, not 1.2 m off" % name,
+              at_line.at_peak and not off.at_peak and off.peak_db < -1.0,
+              "over %.2f dB, 1.2 m off %.2f dB" % (at_line.peak_db, off.peak_db))
+        check("%s: depth range brackets %.1f m" % (name, D), brackets,
+              "%.2f to %.2f m" % (at_line.depth or -1, at_line.depth_hi or -1))
+    single = power_sweep(sources["single wire"], [0.0, 0.0])[-1]
+    check("single wire: shallow end of the range is the true depth",
+          abs(single.depth - D) < 0.05, "%.3f m" % single.depth)
+    pair = power_sweep(sources["pair stacked"], [0.0, 0.0])[-1]
+    check("pair: deep end of the range is the true depth",
+          abs(pair.depth_hi - D) < 0.08, "%.3f m" % pair.depth_hi)
 
 
 # ------------------------------------------------------------------ display --
@@ -229,6 +306,9 @@ def test_display():
             img.convert("L").resize((800, 480)).save(out)
             sc.render(Estimate(status="ok", snr_db=48.0, depth=1.40, x=-0.18), "8 kHz", True) \
               .convert("L").resize((800, 480)).save(out.replace("example", "ok"))
+            sc.render(Estimate(status="ok", snr_db=41.0, depth=1.31, depth_hi=2.9, power=True,
+                               peak_db=-0.1, at_peak=True), "60 Hz POWER", True) \
+              .convert("L").resize((800, 480)).save(out.replace("example", "power"))
     except ImportError:
         check("renders (Pillow not installed: skipped)", True)
 
@@ -277,6 +357,7 @@ def main():
     test_solver()
     test_calibration()
     test_pipeline()
+    test_power()
     test_display()
     test_units()
     test_transmitter()

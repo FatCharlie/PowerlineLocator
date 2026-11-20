@@ -16,6 +16,8 @@
 <text x="1080.0" y="830.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal" fill="#ff7f0e">...and comes back through the earth</text>
 <rect x="60.0" y="330.0" width="230.0" height="150.0" rx="8" fill="#f4f4f4" stroke="#222" stroke-width="2"/>
 <text x="175.0" y="360.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" text-anchor="middle" font-weight="bold" fill="#222">TRANSMITTER</text>
+<rect x="60.0" y="298.0" width="82.0" height="22.0" rx="4" fill="#ff7f0e" stroke="none" stroke-width="2"/>
+<text x="101.0" y="314.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="white">STAGE 2</text>
 <text x="175.0" y="384.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal" fill="#555555">Pico + DRV8871 H-bridge</text>
 <text x="175.0" y="402.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal" fill="#555555">12 V LiFePO4 battery</text>
 <text x="175.0" y="420.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal" fill="#555555">8 kHz / 33 kHz / 90 Hz CAL</text>
@@ -35,8 +37,8 @@
 <path d="M 372 650 L 388 650 L 380 678 Z" fill="#666" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
 <text x="392.0" y="666.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">ground stake, 10 ft or more</text>
 <text x="392.0" y="682.2" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">off to the side</text>
-<text x="60.0" y="300.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">B (live lines): no contact at all. RED and BLACK go to</text>
-<text x="60.0" y="316.2" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">the CLAMP, which snaps around the cable or its ground wire.</text>
+<text x="60.0" y="270.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">B (live lines): no contact at all. RED and BLACK go to</text>
+<text x="60.0" y="286.2" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">the CLAMP, which snaps around the cable or its ground wire.</text>
 <rect x="606.0" y="120.0" width="28.0" height="438.0" rx="0" fill="#deb887" stroke="#8b5a2b" stroke-width="2"/>
 <rect x="550.0" y="110.0" width="140.0" height="70.0" rx="6" fill="#333" stroke="#222" stroke-width="2"/>
 <rect x="568.0" y="120.0" width="104.0" height="44.0" rx="0" fill="#cfd8c8" stroke="#222" stroke-width="1"/>
@@ -61,6 +63,8 @@
 <polyline points="648.0,508.0 648.0,282.0" fill="none" stroke="#e377c2" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5,4"/>
 <text x="660.0" y="320.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">XLR leads</text>
 <text x="620.0" y="590.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="normal" fill="#5a4630">tip on the ground</text>
+<rect x="579.0" y="76.0" width="82.0" height="22.0" rx="4" fill="#2ca02c" stroke="none" stroke-width="2"/>
+<text x="620.0" y="92.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="white">STAGE 1</text>
 <rect x="1080.0" y="140.0" width="340.0" height="360.0" rx="8" fill="white" stroke="#999" stroke-width="2"/>
 <text x="1250.0" y="168.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="middle" font-weight="bold" fill="#222">looking ALONG the cable</text>
 <text x="1250.0" y="190.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal" fill="#555555">the field circles it: B = μ₀ I / (2π r)</text>
