@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+cal.json.tmp
+cal.json

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="760" viewBox="0 0 1300 760">
+<rect x="0.0" y="0.0" width="1300.0" height="760.0" rx="0" fill="white" stroke="none" stroke-width="2"/>
+<text x="24.0" y="40.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="26" text-anchor="start" font-weight="bold" fill="#222">What the four coils see</text>
+<rect x="0.0" y="380.0" width="1300.0" height="380.0" rx="0" fill="#c9b38b" stroke="none" stroke-width="2"/>
+<line x1="0.0" y1="380.0" x2="1300.0" y2="380.0" stroke="#8b7355" stroke-width="3" stroke-linecap="round"/>
+<circle cx="470.0" cy="640.0" r="60.0" fill="none" stroke="#7fb3d5" stroke-width="1.6"/>
+<circle cx="470.0" cy="640.0" r="130.0" fill="none" stroke="#7fb3d5" stroke-width="1.6"/>
+<circle cx="470.0" cy="640.0" r="210.0" fill="none" stroke="#7fb3d5" stroke-width="1.6"/>
+<circle cx="470.0" cy="640.0" r="300.0" fill="none" stroke="#7fb3d5" stroke-width="1.6"/>
+<circle cx="470.0" cy="640.0" r="400.0" fill="none" stroke="#7fb3d5" stroke-width="1.6"/>
+<circle cx="470.0" cy="640.0" r="12.0" fill="#111" stroke="#222" stroke-width="2"/>
+<text x="490.0" y="680.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#222">cable, current coming toward you</text>
+<rect x="624.0" y="100.0" width="12.0" height="282.0" rx="0" fill="#deb887" stroke="#8b5a2b" stroke-width="1"/>
+<rect x="604.0" y="354.0" width="52.0" height="12.0" rx="0" fill="#555555" stroke="#222" stroke-width="2"/>
+<rect x="640.0" y="334.0" width="10.0" height="52.0" rx="0" fill="#999" stroke="#222" stroke-width="2"/>
+<line x1="630.0" y1="360.0" x2="573.5" y2="327.7" stroke="#ff7f0e" stroke-width="3" stroke-linecap="round"/>
+<line x1="573.5" y1="327.7" x2="583.4" y2="328.4" stroke="#ff7f0e" stroke-width="3" stroke-linecap="round"/>
+<line x1="573.5" y1="327.7" x2="579.1" y2="335.9" stroke="#ff7f0e" stroke-width="3" stroke-linecap="round"/>
+<text x="664.0" y="365.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#222">bottom pair</text>
+<rect x="604.0" y="164.0" width="52.0" height="12.0" rx="0" fill="#555555" stroke="#222" stroke-width="2"/>
+<rect x="640.0" y="144.0" width="10.0" height="52.0" rx="0" fill="#999" stroke="#222" stroke-width="2"/>
+<line x1="630.0" y1="170.0" x2="590.0" y2="156.4" stroke="#ff7f0e" stroke-width="3" stroke-linecap="round"/>
+<line x1="590.0" y1="156.4" x2="599.9" y2="155.2" stroke="#ff7f0e" stroke-width="3" stroke-linecap="round"/>
+<line x1="590.0" y1="156.4" x2="597.1" y2="163.4" stroke="#ff7f0e" stroke-width="3" stroke-linecap="round"/>
+<text x="664.0" y="175.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="bold" fill="#222">top pair</text>
+<line x1="470.0" y1="640.0" x2="630.0" y2="360.0" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="6,5"/>
+<polyline points="470.0,640.0 470.0,360.0 630.0,360.0" fill="none" stroke="#999" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3,4"/>
+<text x="458.0" y="500.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" text-anchor="end" font-weight="bold" fill="#222">h</text>
+<text x="550.0" y="352.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" text-anchor="middle" font-weight="bold" fill="#222">x</text>
+<line x1="570.0" y1="360.0" x2="570.0" y2="170.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="570.0" y1="170.0" x2="574.3" y2="179.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="570.0" y1="170.0" x2="565.7" y2="179.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<text x="562.0" y="270.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="end" font-weight="bold" fill="#222">d = 0.5 m</text>
+<rect x="800.0" y="70.0" width="480.0" height="300.0" rx="8" fill="white" stroke="#ccc" stroke-width="2"/>
+<text x="820.0" y="100.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="normal" fill="#555555">Field of a long straight current:</text>
+<text x="840.0" y="126.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="bold" fill="#222">B = μ₀ I / (2π r)</text>
+<text x="820.0" y="154.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="normal" fill="#555555">At a coil x to the side and h above it:</text>
+<text x="840.0" y="180.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="bold" fill="#222">Bx = k h / (x² + h²)</text>
+<text x="840.0" y="208.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="bold" fill="#222">By = k x / (x² + h²)</text>
+<text x="820.0" y="236.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="normal" fill="#555555">Right overhead (x = 0), By = 0 and</text>
+<text x="840.0" y="262.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="bold" fill="#222">h = d · Bx(top) / (Bx(bottom) − Bx(top))</text>
+<text x="820.0" y="290.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="normal" fill="#555555">The current (inside k) cancels. Four readings,</text>
+<text x="820.0" y="316.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="normal" fill="#555555">three unknowns (x, h, k): the spare one checks</text>
+<text x="820.0" y="342.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="normal" fill="#555555">that the field really is one straight line.</text>
+</svg>

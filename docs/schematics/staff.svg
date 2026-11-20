@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+<rect x="0.0" y="0.0" width="1500.0" height="1000.0" rx="0" fill="white" stroke="none" stroke-width="2"/>
+<text x="24.0" y="40.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="26" text-anchor="start" font-weight="bold" fill="#222">The staff: where everything goes (dimensions from the bottom tip)</text>
+<rect x="375.9" y="173.6" width="88.3" height="756.4" rx="0" fill="#deb887" stroke="#8b5a2b" stroke-width="2"/>
+<text x="420.0" y="161.6" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#222">1x4 board, 4 ft (1220 mm)</text>
+<line x1="120.0" y1="930.0" x2="720.0" y2="930.0" stroke="#8b7355" stroke-width="3" stroke-linecap="round"/>
+<text x="120.0" y="952.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#5a4630">ground: the tip rests here</text>
+<rect x="370.4" y="861.0" width="99.2" height="14.0" rx="4" fill="#555555" stroke="#222" stroke-width="2"/>
+<rect x="413.0" y="818.4" width="14.0" height="99.2" rx="4" fill="#999" stroke="#222" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="550.0" y1="868.0" x2="620.0" y2="868.0" stroke="#222" stroke-width="1" stroke-linecap="round"/>
+<text x="630.0" y="873.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="bold" fill="#222">BOTTOM coils: centres 100 mm (4 in) up</text>
+<text x="630.0" y="893.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">H coil on the FRONT face (axis across the board);</text>
+<text x="630.0" y="909.2" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">V coil on the BACK face (axis up the board)</text>
+<rect x="370.4" y="551.0" width="99.2" height="14.0" rx="4" fill="#555555" stroke="#222" stroke-width="2"/>
+<rect x="413.0" y="508.4" width="14.0" height="99.2" rx="4" fill="#999" stroke="#222" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="550.0" y1="558.0" x2="620.0" y2="558.0" stroke="#222" stroke-width="1" stroke-linecap="round"/>
+<text x="630.0" y="563.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="start" font-weight="bold" fill="#222">TOP coils: centres 600 mm (23.6 in) up</text>
+<text x="630.0" y="583.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">H coil on the FRONT face (axis across the board);</text>
+<text x="630.0" y="599.2" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">V coil on the BACK face (axis up the board)</text>
+<line x1="280.0" y1="713.0" x2="280.0" y2="868.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="280.0" y1="868.0" x2="275.7" y2="859.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="280.0" y1="868.0" x2="284.3" y2="859.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="280.0" y1="713.0" x2="280.0" y2="558.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="280.0" y1="558.0" x2="284.3" y2="567.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="280.0" y1="558.0" x2="275.7" y2="567.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<text x="270.0" y="718.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="end" font-weight="bold" fill="#222">500 mm</text>
+<line x1="220.0" y1="899.0" x2="220.0" y2="930.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="220.0" y1="930.0" x2="215.7" y2="921.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="220.0" y1="930.0" x2="224.3" y2="921.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="220.0" y1="899.0" x2="220.0" y2="868.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="220.0" y1="868.0" x2="224.3" y2="877.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="220.0" y1="868.0" x2="215.7" y2="877.0" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+<text x="210.0" y="904.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal" fill="#222">100 mm</text>
+<rect x="340.0" y="372.0" width="160.0" height="62.0" rx="4" fill="#3a3a3a" stroke="#222" stroke-width="2"/>
+<text x="420.0" y="408.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="white">UMC404HD</text>
+<text x="630.0" y="403.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">interface strapped to the front, 800 to 900 mm</text>
+<text x="630.0" y="419.2" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">(keep it at least 200 mm above the top coils)</text>
+<rect x="330.0" y="217.0" width="180.0" height="93.0" rx="6" fill="#333" stroke="#222" stroke-width="2"/>
+<rect x="360.0" y="226.3" width="120.0" height="50.0" rx="0" fill="#cfd8c8" stroke="#222" stroke-width="1"/>
+<text x="420.0" y="258.3" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" text-anchor="middle" font-weight="bold" fill="#222">4&#x27; 7&quot;</text>
+<circle cx="380.0" cy="297.6" r="8.0" fill="#d62728" stroke="#222" stroke-width="2"/>
+<circle cx="460.0" cy="297.6" r="8.0" fill="#1f77b4" stroke="#222" stroke-width="2"/>
+<text x="630.0" y="260.4" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">head box, 1000 to 1150 mm: Pi, screen,</text>
+<text x="630.0" y="276.6" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">MODE (red) and SOUND (blue) buttons, buzzer.</text>
+<text x="630.0" y="292.9" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">Power bank in a pouch on the back.</text>
+<rect x="380.0" y="167.6" width="80.0" height="16.0" rx="6" fill="#222" stroke="#222" stroke-width="2"/>
+<text x="630.0" y="179.8" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">handle on top</text>
+<text x="40.0" y="140.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">Nothing metal below 750 mm:</text>
+<text x="40.0" y="157.5" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">nylon zip ties, wood, glue, tape.</text>
+<text x="40.0" y="175.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal" fill="#555555">Steel screws only up at the head.</text>
+<rect x="970.0" y="100.0" width="420.0" height="420.0" rx="8" fill="#fafafa" stroke="#bbb" stroke-width="2"/>
+<text x="1180.0" y="130.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" text-anchor="middle" font-weight="bold" fill="#222">How to hold it (seen from above)</text>
+<line x1="1180.0" y1="160.0" x2="1180.0" y2="440.0" stroke="#111" stroke-width="8" stroke-linecap="round"/>
+<text x="1194.0" y="170.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#222">cable</text>
+<rect x="1135.0" y="320.0" width="90.0" height="16.0" rx="0" fill="#deb887" stroke="#8b5a2b" stroke-width="2"/>
+<text x="1235.0" y="334.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#222">board</text>
+<circle cx="1180.0" cy="400.0" r="26.0" fill="#ffe0c0" stroke="#222" stroke-width="2"/>
+<text x="1180.0" y="406.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="bold" fill="#222">you</text>
+<line x1="1120.0" y1="450.0" x2="1120.0" y2="370.0" stroke="#1f77b4" stroke-width="2" stroke-linecap="round"/>
+<line x1="1120.0" y1="370.0" x2="1124.3" y2="379.0" stroke="#1f77b4" stroke-width="2" stroke-linecap="round"/>
+<line x1="1120.0" y1="370.0" x2="1115.7" y2="379.0" stroke="#1f77b4" stroke-width="2" stroke-linecap="round"/>
+<text x="980.0" y="480.0" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">Face along the cable, board face toward you.</text>
+<text x="980.0" y="496.2" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">Step left/right across it; the arrow on the</text>
+<text x="980.0" y="512.5" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal" fill="#555555">screen points the way to go.</text>
+</svg>
