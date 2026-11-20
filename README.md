@@ -6,7 +6,7 @@
 
 It works the way commercial locators do: a **transmitter** puts a signal on the line, and a **receiver** staff with four pickup coils listens for it. A **power mode** needs no transmitter at all and listens for the 60 Hz a live, loaded cable already carries.
 
-> **It does not replace 811.** In New Mexico, call 811 (or [nm811.org](https://www.nm811.org)) at least two working days before you dig; the utilities mark their own lines for free. This tool is for what they don't mark: the private lines from your meter to the well, the shop, the neighbour's barn. And whatever any locator says, the law here is to dig by hand within 18 in either side of a mark.
+> **Call 811 for public and utility lines. This is for lines you ran yourself and stupidly didn't mark it.**
 
 ---
 
