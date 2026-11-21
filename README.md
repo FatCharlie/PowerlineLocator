@@ -1,5 +1,7 @@
 # PowerlineLocator
 
+> **Deprecated (November 2026).** This project is no longer maintained and won't be updated. It has been replaced by a new design built around a microcontroller and a dedicated 24-bit ADC instead of a Raspberry Pi and an audio interface. The physics and the build notes here are still correct, but new work happens there. This repository is kept read-only for reference.
+
 ### Current stage: 0. Design done, simulation passes, nothing bought yet. Build Stage 1 first.
 
 **A Raspberry Pi buried cable locator you can build and lend out.** It finds buried power cables (and any other metal line you can put a signal on) down to 4 to 6 ft, shows how deep they are and which way to step, and warns you when the reading can't be trusted. It's meant for places where calling a locating contractor out for every post hole isn't realistic, and where one good tool can go round a whole neighbourhood.
